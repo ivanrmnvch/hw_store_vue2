@@ -19,10 +19,14 @@ export const getSessionData = () => {
 
 export const checkExpiresSessionToken = () => {
   const data = getSessionData();
-  console.log('data', data);
+  if (!data) {
+    return false;
+  }
   if ((data || {}).expired && new Date() > new Date((data || {}).expired)) {
     removeSessionToken();
+    return false;
   }
+  return true;
 };
 
 export const getTokenData = (token = null) => {

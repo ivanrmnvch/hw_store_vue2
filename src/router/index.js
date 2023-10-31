@@ -17,6 +17,10 @@ const routes = [
     name: 'Store',
     component: StorePage,
   },
+  {
+    path: '/basket',
+    name: 'Basket',
+  },
 ];
 
 const router = new VueRouter({

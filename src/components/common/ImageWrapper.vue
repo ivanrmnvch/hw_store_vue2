@@ -39,23 +39,3 @@ export default {
   },
 };
 </script>
-
-<div
-    th:fragment="imageWrapper(iconHeight, iconWidth, imageBtn, imagePath)"
-    th:style="'height: ' + ${iconHeight} + 'px; width: ' + ${iconWidth} + 'px;'"
->
-  <div th:if="${imageBtn}">
-    <img
-        class="image-wrapper image-btn"
-        th:style="'height: ' + ${iconHeight} + 'px; width: ' + ${iconWidth} + 'px;'"
-        th:src="${imagePath}"
-    >
-  </div>
-<div th:unless="${imageBtn}">
-    <img
-        class="image-wrapper"
-        th:style="'height: ' + ${iconHeight} + 'px; width: ' + ${iconWidth} + 'px;'"
-        th:src="${imagePath}"
-    >
-  </div>
-</div>

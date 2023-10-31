@@ -1,11 +1,11 @@
 import axios from 'axios';
-// import { getSessionToken } from '../store/modules/auth/utils';
+import { getSessionToken } from '@/store/modules/auth/utils';
 
-const getToken = () =>
-  // const token = getSessionToken();
-  // return token ? `Bearer ${token}` : null;
-  // eslint-disable-next-line implicit-arrow-linebreak
-  'Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJpdmFuIiwicm9sZXMiOlsiUk9MRV9VU0VSIl0sImV4cCI6MTY5ODU3ODYwOX0.3RY1qcaV1Q81m3nFKE8TiQtY757Tp42prjc5fQ2GN24eslint-disable-next-line implicit-arrow-linebreak';
+const getToken = () => {
+  const token = getSessionToken();
+  return token ? `Bearer ${token}` : null;
+};
+
 const port = 8090;
 const serverBaseUrl = `http://localhost:${port}/`;
 

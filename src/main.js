@@ -21,7 +21,9 @@ const initApp = async () => {
 
   // router.addRoutes(store.state.routes);
 
-  await store.dispatch('auth/checkToken', { router });
+  // await store.dispatch('auth/checkToken', { router });
+
+  store.dispatch('checkToken');
 
   new Vue({
     store,

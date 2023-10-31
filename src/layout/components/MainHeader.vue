@@ -18,64 +18,94 @@
         class="content-item"
         style="justify-content: end;"
       >
-        <!--      <h4-->
-        <!--        class="header__user-name"-->
-        <!--        th:text="${user.getText()}"-->
-        <!--      >-->
-        <!-- </h4>     ${user.getText()}-->
-
-        <!--      th:if="${user.getUserIsAuthorized()}"-->
-        <div
-          th:if="${true}"
+        <h4
+          v-if="user"
+          class="header__user-name"
         >
-          <div
-            class="row"
-            style="position: relative;"
-          >
-            <div
-              th:replace="~{fragments/common/header/components/header_btn :: headerBtn(
-            ${'basket'},
-            ${'/icons/cart-shopping-svgrepo-com.svg'}
-          )}"
-            />
-            <!--          <div class="counter">${cart.getCount()}</div>-->
-            <div
-              th:text="${4}"
-              class="counter"
-            />
-            <div
-              th:replace="~{fragments/common/header/components/header_btn :: headerBtn(
-            ${'profile'},
-            ${'/icons/profile-round-1342-svgrepo-com.svg'}
-          )}"
-            />
-          </div>
-        </div>
-        <form
-          class="ml-4 reset"
-          method="GET"
-          th:action="'test'"
+          {{ `Hello ${user}!` }}
+        </h4>
+        <div
+          v-if="user"
+          class="row"
+          style="position: relative;"
         >
           <button
-            class="${className}"
-            type="submit"
-            th:text="${'btnName'}"
-          />
-        </form>
+            class="header-btn-wrapper ml-4"
+            @click="$router.push({ name: 'Basket' })"
+          >
+            <div class="img-box">
+              <img
+                class="image-btn image-wrapper img-box"
+                src="../../../public/icons/cart-shopping-svgrepo-com.svg"
+              >
+            </div>
+            <div class="counter">
+              {{ '1' }}
+            </div>
+          </button>
+          <button
+            class="header-btn-wrapper ml-5"
+            @click="$router.push({ name: 'Profile' })"
+          >
+            <div class="img-box">
+              <img
+                class="image-btn image-wrapper img-box"
+                src="../../../public/icons/profile-round-1342-svgrepo-com.svg"
+              >
+            </div>
+          </button>
+        </div>
+        <button
+          class="ml-4"
+          :class="getLoginBtnClass"
+          @click="loginActions"
+        >
+          {{ getBtnText }}
+        </button>
       </div>
     </div>
   </header>
 </template>
 <script>
+import { mapState, mapMutations, mapActions } from 'vuex';
+
 export default {
   name: 'MainHeader',
-
+  computed: {
+    ...mapState('auth', [
+      'user',
+    ]),
+    getLoginBtnClass() {
+      return this.user
+        ? 'logout-btn'
+        : 'login-btn';
+    },
+    getBtnText() {
+      return this.user
+        ? this.getLangText('header.btnLogout')
+        : this.getLangText('header.btnLogin');
+    },
+  },
+  methods: {
+    ...mapActions(['logout']),
+    ...mapMutations(['SET_DATA']),
+    loginActions() {
+      if (this.user) {
+        this.logout();
+      } else {
+        this.SET_DATA({ field: 'viewModalLogin', value: true });
+      }
+    },
+  },
 };
 </script>
 <style scoped lang="sass">
 .header-btn-wrapper
   border: none
   background-color: #e5e5e5
+.img-box
+  height: 25px
+  width: 25px
 .content
   display: flex
   flex-direction: row

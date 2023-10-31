@@ -1,58 +1,60 @@
 <template>
   <section
     v-if="viewModalLogin"
-    class="container"
+    class="main-login-form"
   >
-    <div class="title">
-      <input
-        class="btn-return"
-        value="X"
-        @click="$router.push({ name: 'Store' })"
-      >
-      <h2>Authorization</h2>
-    </div>
-    <div class="form-group">
-      <div class="group-item">
-        <div>
-          <label for="username">Login</label>
+    <div class="container">
+      <div class="title">
+        <input
+          class="btn-return"
+          value="X"
+          @click="closeModal"
+        >
+        <h2>Authorization</h2>
+      </div>
+      <div class="form-group">
+        <div class="group-item">
+          <div>
+            <label for="username">Login</label>
+          </div>
+          <div>
+            <input
+              type="text"
+              required
+              :value="modalLogin.login"
+              @input="(value) => SET_MODAL({ field: 'login', value: value.target.value })"
+            >
+          </div>
         </div>
-        <div>
-          <input
-            type="text"
-            required
-            :value="modalLogin.login"
-            @input="(value) => SET_MODAL({ field: 'login', value: value.target.value })"
-          >
+        <div class="group-item">
+          <div>
+            <label for="password">Pass</label>
+          </div>
+          <div>
+            <input
+              type="password"
+              required
+              :value="modalLogin.password"
+              @input="(value) => SET_MODAL({ field: 'password', value: value.target.value })"
+            >
+          </div>
         </div>
       </div>
-      <div class="group-item">
-        <div>
-          <label for="password">Pass</label>
-        </div>
-        <div>
-          <input
-            type="password"
-            required
-            :value="modalLogin.password"
-            @input="(value) => SET_MODAL({ field: 'password', value: value.target.value })"
-          >
-        </div>
+      <div class="auth-btn-green">
+        <button
+          class="btn btn-green"
+          @click="auth"
+        >
+          {{ getLangText('loginForm.btnSing') }}
+        </button>
       </div>
-    </div>
-    <div class="auth-btn-green">
       <button
-        class="btn btn-green"
-        @click="auth"
+        class="btn btn-purple"
+        @click="openRegistrationForm"
       >
-        {{ getLangText('loginForm.btnSing') }}
+        {{ getLangText('loginForm.btnReg') }}
       </button>
     </div>
-    <button
-      class="btn btn-purple"
-      @click="openRegistrationForm"
-    >
-      {{ getLangText('loginForm.btnReg') }}
-    </button>
   </section>
 </template>
 <script>
@@ -72,12 +74,22 @@ export default {
       'SET_MODAL',
       'SET_DATA',
     ]),
+    closeModal() {
+      this.SET_DATA({ field: 'viewModalLogin', value: false });
+      const { name } = this.$route;
+      if (name !== 'Store') {
+        this.$router.push({ name: 'Store' });
+      }
+    },
     openRegistrationForm() {
       this.SET_DATA({ field: 'viewModalRegistration', value: true });
       this.SET_DATA({ field: 'viewModalLogin', value: false });
     },
     async auth() {
-      await this.authorization();
+      const success = await this.authorization();
+      if (success) {
+        this.SET_DATA({ field: 'viewModalLogin', value: false });
+      }
     },
   },
 };
@@ -87,7 +99,7 @@ export default {
   display: flex
   flex-direction: column
 
-body
+.main-login-form
   font-family: Arial, sans-serif
   background-color: #f2f2f2
   margin: 0
@@ -129,11 +141,7 @@ label
   font-weight: bold
   cursor: pointer
 
-input[type="text"]
-  width: 200px
-  padding: 10px
-  border-radius: 3px
-  border: 1px solid #ccc
+input[type="text"],
 input[type="password"]
   width: 200px
   padding: 10px

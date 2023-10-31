@@ -1,8 +1,14 @@
 export default {
-  viewModalLogin: true,
+  viewModalLogin: false,
   viewModalRegistration: false,
 
   modalLogin: {
+    login: '',
+    password: '',
+  },
+
+  modalRegistration: {
+    email: '',
     login: '',
     password: '',
   },

@@ -7,8 +7,6 @@ import {
   setSessionToken,
 } from './utils';
 
-// import API from '../../../utils/API';
-
 let timeout = null;
 
 export default {
